@@ -9,8 +9,14 @@ SELECT country.name AS PAIS,city.name AS CAPITAL,country.GovernmentForm
 FROM country LEFT JOIN city ON city.id = country.capital WHERE GovernmentForm = 'Federal Republic';
 # 29. Listar los lenguajes oficiales, junto al nombre de sus respectivos países, donde la cantidad de 
 # habitantes de dicho país esté entre un millón y tres millones. (Se esperan 2 columnas y 14 registros).
+USE world;
 SELECT country.name AS PAIS, countrylanguage.language AS LENGUAJE_OFICIAL
-FROM country 
+FROM countrylanguage
+INNER JOIN country ON country.code = countrylanguage.CountryCode
+WHERE country.Population BETWEEN 1000000 AND 3000000 AND countrylanguage.IsOfficial = True;
+# Modo sin INNER JOIN
+SELECT country.name AS PAIS, countrylanguage.language AS LENGUAJE_OFICIAL
+FROM country
 RIGHT JOIN countrylanguage ON country.code = countrylanguage.CountryCode AND countrylanguage.IsOfficial = True 
 WHERE country.Population > 1000000 AND Population < 3000000;
 # 30. Listar los códigos, los nombres locales y la región a la que pertenecen aquellos países donde se 
