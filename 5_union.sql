@@ -21,12 +21,26 @@ RIGHT JOIN countrylanguage ON country.code = countrylanguage.CountryCode AND cou
 WHERE country.Population > 1000000 AND Population < 3000000;
 # 30. Listar los códigos, los nombres locales y la región a la que pertenecen aquellos países donde se 
 # hable español. (Se esperan 3 columnas y 28 registros).
+USE world;
+SELECT country.code AS CODIGO,country.localname AS "NOMBRE LOCAL",country.region AS REGION
+FROM countrylanguage
+INNER JOIN country ON country.code = countrylanguage.CountryCode
+WHERE countrylanguage.Language='Spanish';
+
+-- SIN INNER JOIN
 SELECT country.code AS CODIGO,country.localname AS "NOMBRE LOCAL",country.region AS REGION
 FROM countrylanguage
 RIGHT JOIN country ON country.code = countrylanguage.CountryCode
 WHERE countrylanguage.Language='Spanish';
 # 31. Listar los nombres y las capitales de los países en cuya capital se concentre más de la mitad de 
 #su población total. (Se esperan 2 columnas y 14 registros).
+USE world;
+SELECT city.name, country.name 
+FROM city 
+INNER JOIN country ON city.id = country.capital 
+WHERE city.population >= (country.population/2);
+
+-- SIN INNER JOIN
 SELECT city.name, country.name 
 FROM city 
 RIGHT JOIN country ON city.id = country.capital 
@@ -39,6 +53,7 @@ LEFT JOIN city AS C ON c.id = P.capital
 WHERE P.continent = 'Africa' AND C.name = C.district ;
 # 33. Listar los nombres, las capitales y el año de independencia (sin nulos) de los 20 países más 
 # antiguos. (Se esperan 3 columnas y 20 registros).
+
 SELECT P.name AS PAIS, C.name, P.IndepYear AS anio_indep
 FROM country as P 
 LEFT JOIN city AS C ON P.capital = C.id
